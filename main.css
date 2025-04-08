@@ -1,0 +1,131 @@
+:root {
+    --color-background-primary: rgb(18, 18, 154);
+    --color-background-secondary: rgb(121, 181, 218);
+
+    --font-base-color-dark: black;
+    --font-base-color-light: white;
+    --font-size-headings-h1: 2.5rem;
+
+    --padding-body: 10% 4rem;
+
+    --padding-fields: .5rem 2rem;
+    --padding-list-elem: .75rem 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-size: 1.1rem;
+}
+
+button {
+    border: none;
+    border-radius: .5rem;
+    padding: .25rem .5rem;
+    height: fit-content;
+    width: fit-content;
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    padding: var(--padding-body);
+    background-color: var(--color-background-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+    color: var(--font-base-color-dark)
+}
+
+h1 {
+    font-size: var(--font-size-headings-h1);
+    color: var(--font-base-color-light);
+    text-align: center;
+}
+
+section#list-manager,
+article {
+    width: 100%;
+    background-color: var(--color-background-secondary);
+}
+
+section#list-manager {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 10%
+}
+
+input#new-taskfield {
+    width: 100%;
+    padding: var(--padding-fields)
+}
+
+main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+#task-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+
+/* <article class="task">
+    <div>
+        <div>
+            <span class="date-add"></span>
+            <span class="date-done"></span>
+        </div>
+        <span class="task-name">tâche 1</span>
+    </div>
+    <div>
+        <button class="check">finie</button>
+        <button class="del">supprimer</button>
+    </div>
+</article> */
+
+.task {
+    position: relative;
+    padding: var(--padding-list-elem);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10%;
+    border-radius: 0 .5rem .5rem .5rem
+}
+
+.task>div:first-child {
+    width: 100%;
+}
+
+.date {
+    position: absolute;
+    background-color: var(--color-background-secondary);
+    top: 0;
+    left: 0;
+    padding: 0 2rem 0 1rem;
+    translate: 0 -100%;
+    overflow: hidden;
+    border-radius: 5rem 10rem 0 0
+}
+
+.date span {
+    font-size: .9rem;
+    font-style: italic;
+}
+
+.task>div:last-child {
+    width: fit-content;
+    display: flex;
+    gap: 1.5rem;
+}
