@@ -1,5 +1,18 @@
 let lastTaskId = 0;
 
+const formatDate = (date) => {
+    return `${date.getFullYear()}/${formatDatePart(date.getMonth())}/${formatDatePart(date.getDate())} ${formatDatePart(date.getHours())}:${formatDatePart(date.getMinutes())}`
+}
+const formatDatePart = (datePart) => {
+    if (!datePart || datePart === 0) {
+        return "00";
+    }
+    if (datePart.toString().length < 2) {
+        return `0${datePart.toString()}`
+    }
+    return datePart.toString()
+}
+
 class Task {
     id;
     label;
@@ -16,11 +29,9 @@ class Task {
     createTaskElement() {
         const taskItem = document.createElement("li");
         taskItem.className = this.isDone ? "task done" : "task"
-        const parsedDate = `${this.dateAdded.getFullYear()}/${this.dateAdded.getMonth()}/${this.dateAdded.getDate()} ${this.dateAdded.getHours()}:${this.dateAdded.getMinutes()}`
         taskItem.innerHTML = `<div>
             <div class="date">
-                <span class="date-add">${parsedDate}</span>
-                <span class="date-done"></span>
+                <span class="date-add">${formatDate(this.dateAdded)}</span>
             </div>
             <span class="task-name"></span>
         </div>
@@ -32,6 +43,12 @@ class Task {
         taskItem.querySelector(".del").addEventListener("click", () => {
             taskList.removeTask(this.id);
         })
+        if (this.isDone) {
+            const dateDoneElement = document.createElement("span");
+            dateDoneElement.className = "date-done";
+            dateDoneElement.innerText = ` \u2794 ${formatDate(this.dateAdded)}`;
+            taskItem.querySelector(".date").appendChild(dateDoneElement);
+        }
         taskItem.querySelector(".check").addEventListener("click", () => {
             this.setCompletion(!this.isDone)
             taskList.refresh()
@@ -40,6 +57,11 @@ class Task {
     }
     setCompletion(isTaskDone) {
         this.isDone = isTaskDone
+        if (isTaskDone) {
+            this.dateDone = new Date()
+        } else {
+            this.dateDone = null
+        }
     }
 }
 
@@ -67,13 +89,43 @@ const taskList = {
         });
     },
     refresh() {
+        this.sortByCompletionState();
         this.clearList();
         this.render();
+    },
+    getAllTasklabels() {
+        return this.tasks.map((task) => task.label)
+    },
+    /**
+     * will sort with uncompleted task first if given null or true and the opposite if given false
+     * @param {boolean} notCompletedFirst if true sort with uncompleted first (default behavior)
+     */
+    sortByCompletionState(notCompletedFirst = true) {
+        if (notCompletedFirst) {
+            this.tasks.sort((a, b) => {
+                if (a.isDone !== b.isDone) {
+                    return a.isDone - b.isDone
+                }
+                return a.dateAdded - b.dateAdded
+            })
+        } else {
+            this.tasks.sort((a, b) => {
+                if (a.isDone !== b.isDone) {
+                    return b.isDone - a.isDone
+                }
+                return a.dateAdded - b.dateAdded
+            })
+        }
     }
 }
 
 buttonAddTask.addEventListener("click", () => {
-    const newTaskLabel = inputNewTaskLabel.value
-    const newTask = new Task(newTaskLabel)
-    taskList.addTask(newTask)
+    const newTaskLabel = inputNewTaskLabel.value.trim();
+    const existingTaskNames = taskList.getAllTasklabels();
+    if (existingTaskNames.includes(newTaskLabel)) {
+        alert("Il existe déjà une tâche ayant ce nom");
+        return;
+    }
+    const newTask = new Task(newTaskLabel);
+    taskList.addTask(newTask);
 })
