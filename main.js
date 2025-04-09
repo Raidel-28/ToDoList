@@ -36,12 +36,15 @@ class Task {
             <span class="task-name"></span>
         </div>
         <div>
-            <button class="check">finie</button>
-            <button class="del">supprimer</button>
+            <button class="check">Finie</button>
+            <button class="del">Supprimer</button>
         </div>`;
         taskItem.querySelector(".task-name").innerText = this.label;
         taskItem.querySelector(".del").addEventListener("click", () => {
-            taskList.removeTask(this.id);
+            const mustDelete = confirm("Voulez-vous vraiment supprimer cette tâche")
+            if (mustDelete) {
+                taskList.removeTask(this.id);
+            }
         })
         if (this.isDone) {
             const dateDoneElement = document.createElement("span");
