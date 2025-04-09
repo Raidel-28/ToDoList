@@ -1,6 +1,8 @@
 :root {
     --color-background-primary: rgb(18, 18, 154);
     --color-background-secondary: rgb(121, 181, 218);
+    --color-background-task-uncomplete: rgb(255, 93, 96);
+    --color-background-task-complete: rgb(153, 223, 106);
 
     --font-base-color-dark: black;
     --font-base-color-light: white;
@@ -45,8 +47,7 @@ h1 {
     text-align: center;
 }
 
-section#list-manager,
-article {
+section#list-manager {
     width: 100%;
     background-color: var(--color-background-secondary);
 }
@@ -79,21 +80,6 @@ main {
     align-items: center;
 }
 
-
-/* <article class="task">
-    <div>
-        <div>
-            <span class="date-add"></span>
-            <span class="date-done"></span>
-        </div>
-        <span class="task-name">tâche 1</span>
-    </div>
-    <div>
-        <button class="check">finie</button>
-        <button class="del">supprimer</button>
-    </div>
-</article> */
-
 .task {
     position: relative;
     padding: var(--padding-list-elem);
@@ -108,15 +94,29 @@ main {
     width: 100%;
 }
 
+
+li {
+    width: 100%;
+    background-color: var(--color-background-task-uncomplete);
+}
+
 .date {
     position: absolute;
-    background-color: var(--color-background-secondary);
+    background-color: var(--color-background-task-uncomplete);
     top: 0;
     left: 0;
     padding: 0 2rem 0 1rem;
     translate: 0 -100%;
     overflow: hidden;
     border-radius: 5rem 10rem 0 0
+}
+
+li.done {
+    background-color: var(--color-background-task-complete);
+}
+
+li.done .date {
+    background-color: var(--color-background-task-complete);
 }
 
 .date span {
