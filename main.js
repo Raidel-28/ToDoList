@@ -49,7 +49,7 @@ class Task {
         if (this.isDone) {
             const dateDoneElement = document.createElement("span");
             dateDoneElement.className = "date-done";
-            dateDoneElement.innerText = ` \u2794 ${formatDate(this.dateAdded)}`;
+            dateDoneElement.innerText = ` \u2794 ${formatDate(this.dateDone)}`;
             taskItem.querySelector(".date").appendChild(dateDoneElement);
         }
         taskItem.querySelector(".check").addEventListener("click", () => {
